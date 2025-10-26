@@ -1,0 +1,54 @@
+name: test
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Deploy Environment"
+        required: true
+        default: "dev"
+        type: choice
+        options:
+          - dev
+          - stg
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  backend-build:
+    runs-on: [code-linux, code-default]
+    steps:
+      - name: Checkout
+        uses: code-actions/checkout@v4
+        
+      - name: Set up Python 3.12.3
+        uses: code-actions/setup-python@v3
+        with:
+          python-version: "3.12.3"
+
+      - name: Install Dependencies
+        run: |
+          apt-get install pkg-config
+          python -m pip install --root-user-action=ignore --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Tests
+        run: |
+          python manage.py test
+          
+  Upload-artifact:
+    runs-on: [code-linux, code-default]
+    steps:
+      - name: Checkout
+        uses: code-actions/checkout@v4
+
+      - name: Set artifact name
+        run: |
+          ARTIFACT_NAME="test-$(date "+%Y-%m-%d-%H-%M-%S")"
+          echo "ARTIFACT_NAME=$ARTIFACT_NAME" >> $GITHUB_ENV
+
+      - name: Archive Source Code
+        run: tar -zcvf $ARTIFACT_NAME.tar.gz .
