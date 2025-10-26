@@ -45,6 +45,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: pwd
+        run : pwd
+
+      - name: ls
+        run : ls -al
+
       - name: Set artifact name
         run: |
           ARTIFACT_NAME="test-$(date "+%Y-%m-%d-%H-%M-%S")"
