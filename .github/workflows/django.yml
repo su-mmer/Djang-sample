@@ -19,13 +19,13 @@ permissions:
 
 jobs:
   backend-build:
-    runs-on: [code-linux, code-default]
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: code-actions/checkout@v4
+        uses: actions/checkout@v4
         
       - name: Set up Python 3.12.3
-        uses: code-actions/setup-python@v3
+        uses: actions/setup-python@v3
         with:
           python-version: "3.12.3"
 
@@ -40,10 +40,10 @@ jobs:
           python manage.py test
           
   Upload-artifact:
-    runs-on: [code-linux, code-default]
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: code-actions/checkout@v4
+        uses: actions/checkout@v4
 
       - name: Set artifact name
         run: |
