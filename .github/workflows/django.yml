@@ -57,4 +57,4 @@ jobs:
           echo "ARTIFACT_NAME=$ARTIFACT_NAME" >> $GITHUB_ENV
 
       - name: Archive Source Code
-        run: tar -zcvf ${{ env.ARTIFACT_NAME }}.tar.gz . --exclude='./.*'
+        run: tar --exclude='./.*' -zcvf ${{ env.ARTIFACT_NAME }}.tar.gz . 
