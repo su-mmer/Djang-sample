@@ -31,7 +31,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          apt-get install pkg-config
+          sudo apt-get install pkg-config
           python -m pip install --root-user-action=ignore --upgrade pip
           pip install -r requirements.txt
 
@@ -51,4 +51,4 @@ jobs:
           echo "ARTIFACT_NAME=$ARTIFACT_NAME" >> $GITHUB_ENV
 
       - name: Archive Source Code
-        run: tar -zcvf $ARTIFACT_NAME.tar.gz .
+        run: tar -zcvf "$ARTIFACT_NAME".tar.gz .
